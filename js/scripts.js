@@ -1,6 +1,8 @@
   $(document).ready(function() {
     $("#wordOrder").submit(function(event) {
       var sentence = $("#sentence").val();
+
+      var sentence = 'apple apple bee chan chan chan'
       var words = sentence.split(" ");
       var object = {};
 
@@ -12,38 +14,44 @@
       if(object[word]){
       object[word] +=1;
       } else {object[word] = 1;}
+
+      return object;
     });
 
 // So far, it will create such example:
 // sentence= apple apple bee chan chan chan
 // object= { "apple":2, "bee":1, "chan":3 }
+// but we cannot really observe this with alert(object).
 
-// Below functions will sort this object in order of the greatest frequency to the lowest frequencies in the sentence. First, it divides the object into array elements, based on the words and according frequencies (based on key-value pair).
+
+// Below functions will sort this object in order of the greatest frequency to the lowest appearances in the sentence. First, it divides the object into array elements, based on the words and according appearances (based on key-value pair).
 
 // alert(Object.keys(object));
 
-    var newArray = [];
-    newArray = Object.keys(object).map(function(key) {
+    var pairArray = [];
+    pairArray = Object.keys(object).map(function (sortedWord) {
       return {
-        word: key,
-        appearance: object[key]
+        word: sortedWord,
+        appearance: object[sortedWord]
       };
     });
-    alert(newArray);
-    var finalArray = newArray.sort(function(a,b){
+
+// alert(pairArray[0].word);
+    var finalArray = pairArray.sort(function (a,b) {
       return b.appearance - a.appearance;
     });
-
 
 // Example for now:
 // sentence= apple apple bee chan chan chan
 // finalarray= [ {word: chan, appearance: 3}, {word: apple, appearance: 2}, {word: bee, appearance: 1} ]
 
-// Finally, we will append each array elements into individual paragraph.
+// Finally, we will append each object elements into individual paragraph.
 
-    finalArray.forEach(function (wordAppearancePair) {
-      $("div#output").append("<p>" + wordAppearancePair + "</p>");
-    });
+  finalArray.forEach(function (wordAppearancePair) {
+    $("div#output").append("<p>" + Object.values(wordAppearancePair) + "</p>");
+  });
+
+// or you can use wordAppearancePair.word or wordAppearancePair.appearance to access the object value.
 
   event.preventDefault();
   });
